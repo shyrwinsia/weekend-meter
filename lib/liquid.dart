@@ -52,7 +52,7 @@ class _LiquidState extends State<Liquid> with SingleTickerProviderStateMixin {
           child: CustomPaint(
             painter: WavePainter(
               height: (this.widget.left * MediaQuery.of(context).size.height) /
-                  widget.total,
+                  this.widget.total,
               phase: this._animation.value,
             ),
           ),

@@ -8,6 +8,7 @@ void main() {
   runApp(WeekendMeterApp());
 }
 
+@immutable
 class WeekendMeterApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

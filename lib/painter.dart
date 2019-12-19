@@ -2,8 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+@immutable
 class WavePainter extends CustomPainter {
-  List<Wave> waves = List();
+  final List<Wave> waves = List();
 
   WavePainter({@required height, @required phase}) {
     waves
