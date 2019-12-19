@@ -3,13 +3,6 @@ import 'package:weekendmeter/painter.dart';
 
 @immutable
 class Liquid extends StatefulWidget {
-  final LinearGradient gradient = LinearGradient(colors: [
-    const Color(0xFFFDC830),
-    const Color(0xFFF37335),
-  ], begin: Alignment.topCenter, end: Alignment.bottomCenter);
-  final double amplitude = 4;
-  final double frequency = 0.6;
-  final List<Color> colors = [const Color(0xFFFFE342)];
   final int left, total;
 
   Liquid({
@@ -58,11 +51,9 @@ class _LiquidState extends State<Liquid> with SingleTickerProviderStateMixin {
           width: MediaQuery.of(context).size.width,
           child: CustomPaint(
             painter: WavePainter(
-              amplitude: this.widget.amplitude,
-              phase: this.phase,
-              frequency: this.widget.frequency,
               height: (this.widget.left * MediaQuery.of(context).size.height) /
-                  this.widget.total,
+                  widget.total,
+              phase: this._animation.value,
             ),
           ),
         ),

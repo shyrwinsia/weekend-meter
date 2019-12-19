@@ -41,18 +41,12 @@ class _WeekendMeterState extends State<WeekendMeter> {
   }
 
   void _initializeTimer() {
-    DateTime now = DateTime.now();
     if (WeekendUtility.isItWeekendAlready()) {
       setState(() {
         _isWeekend = true;
+        _left = WeekendUtility.getSecondsToEndOfWeekend();
       });
-
-      // calculate the minutes left
-      DateTime endOfWeekend = WeekendUtility.getNextMidnight();
-
-      setState(() {
-        _left = endOfWeekend.difference(now).inSeconds;
-      });
+      // start the timer
       _startTimer();
     }
 

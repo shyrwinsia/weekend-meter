@@ -1,5 +1,19 @@
 class WeekendUtility {
-  static DateTime getNextMidnight() {
+  // my weekend starts at 7pm on friday :)
+  static bool isItWeekendAlready() {
+    DateTime now = DateTime.now();
+    return (now.weekday == DateTime.friday && now.hour >= 19) ||
+        now.weekday == DateTime.saturday ||
+        now.weekday == DateTime.sunday;
+  }
+
+  static int getSecondsToEndOfWeekend() {
+    DateTime now = DateTime.now();
+    DateTime endOfWeekend = WeekendUtility._getNextMidnight();
+    return endOfWeekend.difference(now).inSeconds;
+  }
+
+  static DateTime _getNextMidnight() {
     DateTime dateTime = DateTime.now();
 
     while (dateTime.second != 0) {
@@ -15,13 +29,5 @@ class WeekendUtility {
       dateTime = dateTime.add(Duration(days: 1));
     }
     return dateTime;
-  }
-
-  // my weekend starts at 7pm on friday :)
-  static bool isItWeekendAlready() {
-    DateTime now = DateTime.now();
-    return (now.weekday == DateTime.friday && now.hour >= 19) ||
-        now.weekday == DateTime.saturday ||
-        now.weekday == DateTime.sunday;
   }
 }

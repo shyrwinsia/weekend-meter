@@ -3,127 +3,83 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class WavePainter extends CustomPainter {
-  final double phase;
-  final double amplitude;
-  final double frequency;
-  final double height;
+  List<Wave> waves = List();
 
-  WavePainter({
-    @required this.amplitude,
-    @required this.phase,
-    @required this.frequency,
-    @required this.height,
-  });
+  WavePainter({@required height, @required phase}) {
+    waves
+      ..add(Wave(
+          height: height,
+          frequency: 0.09,
+          amplitude: 8,
+          phase: phase + 130,
+          gradient: LinearGradient(colors: [
+            const Color(0xFFF37335),
+            const Color(0x88F37335),
+          ], begin: Alignment.topCenter, end: Alignment.bottomCenter)))
+      ..add(Wave(
+          height: height,
+          frequency: 0.03,
+          amplitude: 6,
+          phase: phase + 250,
+          gradient: LinearGradient(colors: [
+            const Color(0xFFF37335),
+            const Color(0xAAFED561),
+          ], begin: Alignment.topCenter, end: Alignment.bottomCenter)))
+      ..add(Wave(
+          height: height,
+          frequency: 0.6,
+          amplitude: 4,
+          phase: phase,
+          gradient: LinearGradient(colors: [
+            const Color(0xFFF37335),
+            const Color(0xFFFDC830),
+          ], begin: Alignment.topCenter, end: Alignment.bottomCenter)));
+  }
 
   @override
   void paint(Canvas canvas, Size size) {
-    Path wave1 = Path();
-    Path wave2 = Path();
-    Path wave3 = Path();
-    Paint paint1 = Paint();
-    Paint paint2 = Paint();
-    Paint paint3 = Paint();
+    // we go through the stack of waves
+    for (Wave wave in this.waves) {
+      Path path = Path();
+      Paint paint = Paint();
 
-    // move to x, y start
-    wave1.moveTo(
-        0,
-        _sin(
+      // move to the lefmost part of the screen to start painting
+      path.moveTo(
           0,
-          height,
+          _sin(
+            0,
+            wave.height,
+            size.width,
+            wave.frequency,
+            wave.amplitude,
+            wave.phase,
+          ));
+
+      // draw the sine wave from there, f(x) = sin(x)
+      for (double x = 1; x < size.width; x++) {
+        double y = _sin(
+          x,
+          wave.height,
           size.width,
-          this.frequency,
-          this.amplitude,
-          this.phase,
-        ));
+          wave.frequency,
+          wave.amplitude,
+          wave.phase,
+        );
+        // draw the line
+        path.lineTo(x, y);
+      }
 
-    wave2.moveTo(
-        0,
-        _sin(
-          0,
-          height,
-          size.width,
-          this.frequency / 3,
-          this.amplitude * 1.2,
-          this.phase + 230,
-        ));
-
-    wave3.moveTo(
-        0,
-        _sin(
-          0,
-          height,
-          size.width,
-          this.frequency / 7,
-          this.amplitude * 1.8,
-          this.phase + 130,
-        ));
-
-    // draw the sine wave from there
-    for (double x = 1; x < size.width; x++) {
-      double y1 = _sin(
-        x,
-        height,
-        size.width,
-        this.frequency,
-        this.amplitude,
-        this.phase,
+      // go down and right
+      path.lineTo(size.width, wave.height);
+      // go left and up to close the shape
+      path.lineTo(0, wave.height);
+      // apply the gradient as a shader
+      paint.shader = wave.gradient.createShader(
+        Offset.zero & Size(size.width, -wave.height),
       );
-
-      double y2 = _sin(
-        x,
-        height,
-        size.width,
-        this.frequency / 3,
-        this.amplitude * 1.2,
-        this.phase + 230,
-      );
-
-      double y3 = _sin(
-        x,
-        height,
-        size.width,
-        this.frequency / 7,
-        this.amplitude * 1.8,
-        this.phase + 130,
-      );
-
-      wave1.lineTo(x, y1);
-      wave2.lineTo(x, y2);
-      wave3.lineTo(x, y3);
+      // paint it to the canvas
+      canvas.drawPath(path, paint);
     }
-
-    wave1.lineTo(size.width, height);
-    wave1.lineTo(0, height);
-
-    wave2.lineTo(size.width, height);
-    wave2.lineTo(0, height);
-
-    wave3.lineTo(size.width, height);
-    wave3.lineTo(0, height);
-
-    var rect = Offset.zero & Size(size.width, -height);
-
-    paint1.shader = LinearGradient(colors: [
-      const Color(0xFFF37335),
-      const Color(0xFFFDC830),
-    ], begin: Alignment.topCenter, end: Alignment.bottomCenter)
-        .createShader(rect);
-
-    paint2.shader = LinearGradient(colors: [
-      const Color(0xFF000000),
-      const Color(0xAAFFD561),
-    ], begin: Alignment.topCenter, end: Alignment.bottomCenter)
-        .createShader(rect);
-
-    paint3.shader = LinearGradient(colors: [
-      const Color(0xFF000000),
-      const Color(0xAAF37335),
-    ], begin: Alignment.topCenter, end: Alignment.bottomCenter)
-        .createShader(rect);
-
-    canvas.drawPath(wave3, paint3);
-    canvas.drawPath(wave2, paint2);
-    canvas.drawPath(wave1, paint1);
   }
 
   @override
@@ -144,4 +100,21 @@ class WavePainter extends CustomPainter {
     double phaseRadians = (2 * pi / 360.0) * phase;
     return (sin(angleRadians + phaseRadians) * amplitude) - height;
   }
+}
+
+// The data model class that will hold the wave attributes
+class Wave {
+  final double height;
+  final double phase;
+  final double frequency;
+  final double amplitude;
+  final Gradient gradient;
+
+  Wave({
+    @required this.height,
+    @required this.frequency,
+    @required this.amplitude,
+    @required this.phase,
+    @required this.gradient,
+  });
 }
