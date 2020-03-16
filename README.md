@@ -1,8 +1,8 @@
-![Logo](assets/img/logo.png)
-
 # Weekend Meter
 
-![Build Status](https://github.com/shyrwinsia/weekend-meter/workflows/build/badge.svg) ![License](https://img.shields.io/github/license/shyrwinsia/weekend-meter) ![Last Commit](https://img.shields.io/github/last-commit/shyrwinsia/weekend-meter)
+[![Build Status](https://github.com/shyrwinsia/weekend-meter/workflows/build/badge.svg)](https://github.com/shyrwinsia/weekend-meter/actions)
+[![License](https://img.shields.io/github/license/shyrwinsia/weekend-meter)](https://github.com/shyrwinsia/weekend-meter/blob/master/LICENSE)
+[![Last Commit](https://img.shields.io/github/last-commit/shyrwinsia/weekend-meter)](https://github.com/shyrwinsia/weekend-meter/commits/master)
 
 ![Animation](assets/img/demo.gif)
 
