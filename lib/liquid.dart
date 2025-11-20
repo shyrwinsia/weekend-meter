@@ -5,9 +5,9 @@ import 'package:weekendmeter/painter.dart';
 class Liquid extends StatefulWidget {
   final int left, total;
 
-  Liquid({
-    @required this.left,
-    @required this.total,
+  const Liquid({
+    required this.left,
+    required this.total,
   }) : assert(left <= total);
 
   @override
@@ -15,8 +15,8 @@ class Liquid extends StatefulWidget {
 }
 
 class _LiquidState extends State<Liquid> with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  Animation<double> _animation;
+  late AnimationController _controller;
+  late Animation<double> _animation;
   double phase = 0;
 
   @override
@@ -24,7 +24,7 @@ class _LiquidState extends State<Liquid> with SingleTickerProviderStateMixin {
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 6000),
+      duration: const Duration(milliseconds: 6000),
     );
 
     _animation = Tween<double>(
@@ -47,17 +47,17 @@ class _LiquidState extends State<Liquid> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) => Align(
+        alignment: Alignment.bottomCenter,
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
           child: CustomPaint(
             painter: WavePainter(
-              height: (this.widget.left * MediaQuery.of(context).size.height) /
-                  this.widget.total,
-              phase: this._animation.value,
+              height: (widget.left * MediaQuery.of(context).size.height) /
+                  widget.total,
+              phase: _animation.value,
             ),
           ),
         ),
-        alignment: Alignment.bottomCenter,
       );
 
   @override

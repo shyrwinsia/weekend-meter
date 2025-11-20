@@ -4,12 +4,14 @@ import 'package:weekendmeter/meter.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(statusBarColor: Colors.transparent));
-  runApp(WeekendMeterApp());
+      const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+  runApp(const WeekendMeterApp());
 }
 
 @immutable
 class WeekendMeterApp extends StatelessWidget {
+  const WeekendMeterApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,8 +20,8 @@ class WeekendMeterApp extends StatelessWidget {
         fontFamily: 'Simplifica',
       ),
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: const Color(0xEE000000),
+      home: const Scaffold(
+        backgroundColor: Color(0xEE000000),
         body: WeekendMeter(),
       ),
     );
