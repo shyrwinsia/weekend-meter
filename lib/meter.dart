@@ -7,14 +7,16 @@ import 'package:weekendmeter/weekend.dart';
 
 @immutable
 class WeekendMeter extends StatefulWidget {
-  final Color background = const Color(0xEE000000);
+  const WeekendMeter({super.key});
+
+  static const Color background = Color(0xEE000000);
 
   @override
   State<WeekendMeter> createState() => _WeekendMeterState();
 }
 
 class _WeekendMeterState extends State<WeekendMeter> {
-  Timer _timer;
+  Timer? _timer;
   int _left = 190800;
   int _total = 190800;
   bool _isWeekend = false;
@@ -62,33 +64,36 @@ class _WeekendMeterState extends State<WeekendMeter> {
   }
 
   Widget _weekend() => Container(
-        color: this.widget.background,
+        color: WeekendMeter.background,
         child: Stack(
           children: <Widget>[
             Liquid(
-              left: this._left,
-              total: this._total,
+              left: _left,
+              total: _total,
             ),
             CountdownTimer(
-              left: this._left,
-              total: this._total,
+              left: _left,
+              total: _total,
             ),
           ],
         ),
       );
 
-  Widget _notWeekend() => Center(
+  Widget _notWeekend() => const Center(
         child: Text(
           'It\'s not yet the weekend.\nGet back to work.',
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 50,
-            color: const Color(0xFFFFFFFF),
+            color: Color(0xFFFFFFFF),
           ),
         ),
       );
 
   @override
-  Widget build(BuildContext context) =>
-      _isInitializing ? SizedBox() : _isWeekend ? _weekend() : _notWeekend();
+  Widget build(BuildContext context) => _isInitializing
+      ? const SizedBox()
+      : _isWeekend
+          ? _weekend()
+          : _notWeekend();
 }

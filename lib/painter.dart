@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 
 @immutable
 class WavePainter extends CustomPainter {
-  final List<Wave> waves = List();
+  final List<Wave> waves = [];
 
-  WavePainter({@required height, @required phase}) {
+  WavePainter({required double height, required double phase}) {
     waves
       ..add(Wave(
           height: height,
@@ -111,11 +111,11 @@ class Wave {
   final double amplitude;
   final Gradient gradient;
 
-  Wave({
-    @required this.height,
-    @required this.frequency,
-    @required this.amplitude,
-    @required this.phase,
-    @required this.gradient,
+  const Wave({
+    required this.height,
+    required this.frequency,
+    required this.amplitude,
+    required this.phase,
+    required this.gradient,
   });
 }

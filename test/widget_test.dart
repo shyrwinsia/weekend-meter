@@ -4,7 +4,7 @@ import 'package:weekendmeter/weekend.dart';
 
 void main() {
   testWidgets('Smoke Test: Check if it loads', (WidgetTester tester) async {
-    await tester.pumpWidget(WeekendMeterApp());
+    await tester.pumpWidget(const WeekendMeterApp());
 
     if (WeekendUtility.isItWeekendAlready()) {
       expect(find.text('left of your weekend'), findsOneWidget);
